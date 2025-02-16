@@ -1,1 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            margin: 5px;
+            padding: 5px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Table Creator</h1>
+    <div>
+        <input type="number" id="rows" min="1" placeholder="Number of rows">
+        <input type="number" id="cols" min="1" placeholder="Number of columns">
+        <button onclick="generateTable()">Generate Table</button>
+    </div>
+    <div id="tableContainer"></div>
+
+    <script>
+        function generateTable() {
+            const rows = document.getElementById('rows').value;
+            const cols = document.getElementById('cols').value;
+            const tableContainer = document.getElementById('tableContainer');
+
+            if (rows > 0 && cols > 0) {
+                const table = document.createElement('table');
+                
+                 
+                const headerRow = table.insertRow();
+                headerRow.insertCell();  
+                for (let j = 0; j < cols; j++) {
+                    const th = headerRow.insertCell();
+                    const deleteColBtn = document.createElement('button');
+                    deleteColBtn.textContent = 'Delete Column';
+                    deleteColBtn.className = 'delete-btn';
+                    deleteColBtn.onclick = () => deleteColumn(table, j + 1);
+                    th.appendChild(deleteColBtn);
+                }
+
+                 
+                for (let i = 0; i < rows; i++) {
+                    const row = table.insertRow();
+                    
+                     
+                    const deleteCell = row.insertCell();
+                    const deleteRowBtn = document.createElement('button');
+                    deleteRowBtn.textContent = 'Delete Row';
+                    deleteRowBtn.className = 'delete-btn';
+                    deleteRowBtn.onclick = () => deleteRow(table, row);
+                    deleteCell.appendChild(deleteRowBtn);
+
+                     
+                    for (let j = 0; j < cols; j++) {
+                        const cell = row.insertCell();
+                        cell.textContent = `Cell ${i+1},${j+1}`;
+                    }
+                }
+
+                tableContainer.innerHTML = '';
+                tableContainer.appendChild(table);
+            } else {
+                alert('Please enter valid numbers for rows and columns.');
+            }
+        }
+
+        function deleteRow(table, row) {
+            table.deleteRow(row.rowIndex);
+        }
+
+        function deleteColumn(table, colIndex) {
+            for (let i = 0; i < table.rows.length; i++) {
+                table.rows[i].deleteCell(colIndex);
+            }
+        }
+    </script>
+</body>
+</html>
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Password Toggle</title>
+</head>
+<body>
+    <input type="password" id="passField">
+    <input type="checkbox" id="toggleBox" onchange="togglePass()"> Show Password
+
+    <script>
+        function togglePass() {
+            let field = document.getElementById("passField");
+            field.type = document.getElementById("toggleBox").checked ? "text" : "password";
+        }
+    </script>
+</body>
+</html>

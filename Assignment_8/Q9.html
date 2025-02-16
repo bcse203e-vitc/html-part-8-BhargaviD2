@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    #timerDisplay {
+      font-size: 2em;
+      margin-top: 20px;
+    }
+    audio {
+      display: none; /* Hide the audio element */
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown Timer</h1>
+  <p>Enter time in seconds and click "Start".</p>
+  
+  <input type="number" id="timeInput" placeholder="Enter seconds" min="1">
+  <button onclick="startCountdown()">Start</button>
+  
+  <div id="timerDisplay">00:00</div>
+
+  <audio id="alarmSound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
+  <script>
+    let countdownInterval;
+
+    function startCountdown() {
+      const timeInput = document.getElementById('timeInput').value;
+      const timerDisplay = document.getElementById('timerDisplay');
+      const alarmSound = document.getElementById('alarmSound');
+      
+      let timeRemaining = parseInt(timeInput);
+
+      if (isNaN(timeRemaining) || timeRemaining <= 0) {
+        alert("Please enter a valid number greater than zero.");
+        return;
+      }
+
+      clearInterval(countdownInterval);
+
+      function updateDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+
+        timerDisplay.textContent = 
+          (minutes < 10 ? "0" : "") + minutes + ":" + 
+          (seconds < 10 ? "0" : "") + seconds;
+
+        if (timeRemaining <= 0) {
+          clearInterval(countdownInterval);
+          alarmSound.play();
+          alert("Time's up!");
+        } else {
+          timeRemaining--;
+        }
+      }
+
+      updateDisplay();
+      countdownInterval = setInterval(updateDisplay, 1000);
+    }
+  </script>
+</body>
+</html>
